@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style-home.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/89c5766a7d.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ranchers&display=swap"
+      rel="stylesheet"
+    />
+    <title>Blog</title>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="first-block">
+        <h1>Blog</h1>
+        <div class="links">
+          <a class="header-link" id="my-posts" href="#">My posts</a>
+          <a class="header-link" id="all-posts" href="#">All posts</a>
+          <a class="header-link" id="add-post" href="#">Add post</a>
+        </div>
+      </div>
+      <div class="posts-list"></div>
+    </div>
+
+    <!--modal-->
+    <div class="modal_add-post">
+      <div class="add-post__main">
+        <div class="modal__author">
+          <span>Автор:</span>
+          <span>Имя Автора</span>
+        </div>
+        <div class="modal__date">
+          <span>Дата:</span>
+          <span>Текущая дата</span>
+        </div>
+        <form action="">
+          <input id="post-title" type="text" placeholder="Title" /><br />
+          <textarea
+            class="post-text"
+            name=""
+            cols="30"
+            rows="10"
+            placeholder="Write your post"
+          ></textarea>
+          <button class="btn-publish">Publish</button>
+        </form>
+        <div class="modal__close-icon">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <script src="/js/scriptHomeFolder/sidebar.js"></script>
+    <script src="/js/scriptHomeFolder/Post.js"></script>
+    <script src="/js/scriptHomeFolder/variables.js"></script>
+    <script src="/js/controller.js"></script>
+
+    <script src="/js/scriptHomeFolder/scriptHome.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        Controller.init();
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/brownies"></script>
+    <script>
+      // Extract it since we only define `brownies` globally
+      const { cookies, local } = brownies;
+    </script>
+  </body>
+</html>

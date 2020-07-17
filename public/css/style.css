@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: linear-gradient(
+    to top,
+    rgb(206, 250, 253),
+    rgb(255, 218, 239)
+  );
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+}
+
+.main-form {
+  width: 400px;
+  margin: auto;
+  margin-top: 100px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 9px 0px rgba(0, 0, 0, 0.185);
+}
+
+h2 {
+  padding: 20px;
+  font-size: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form {
+  padding: 10px;
+}
+
+.form-text {
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: rgb(59, 59, 59);
+}
+
+.input {
+  width: 100%;
+  border: 1px solid transparent;
+  font-size: 20px;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
+  border-radius: 10px;
+  padding: 15px;
+  outline: none;
+}
+.input:hover,
+.input:focus,
+.input:active {
+  filter: drop-shadow(0 0 3px teal);
+}
+
+.input-error {
+  filter: drop-shadow(0 0 3px red);
+}
+
+.btn-sign-in {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgb(42, 127, 238);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-sign-in:hover {
+  background-color: rgb(253, 141, 204);
+}
+
+.error-message {
+  font-size: 10;
+  padding-top: 5px;
+  color: red;
+  opacity: 0;
+}
+
+.error-message--active {
+  opacity: 1;
+}
+
+h3 {
+  text-align: center;
+  padding: 15px;
+}
+
+.result {
+  text-align: center;
+  padding: 20px;
+  display: none;
+}
+
+.result--active {
+  display: block;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 50px;
+  color: rgb(255, 0, 144);
+}

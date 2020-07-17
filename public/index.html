@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>SingUp</title>
+  </head>
+  <body>
+    <div class="links">
+      <a href="index.html">SingUp</a>
+      <a href="singIn.html">SingIn</a>
+    </div>
+    <div class="main-form">
+      <h2>Sing Up</h2>
+      <form class="form">
+        <p class="form-text">Name</p>
+        <input
+          type="text"
+          name="name"
+          class="input"
+          id="form-name"
+          placeholder="name"
+          maxlength="20"
+        />
+        <p class="error-message">
+          Введите Имя
+        </p>
+        <p class="form-text">Email</p>
+        <input
+          type="email"
+          name="name"
+          class="input"
+          id="form-email"
+          placeholder="email"
+          maxlength="20"
+        />
+        <p class="error-message">
+          Вы ввели Email неправильно
+        </p>
+        <p class="form-text">Password</p>
+        <input
+          type="password"
+          name="name"
+          class="input"
+          id="form-password"
+          placeholder="password"
+        />
+        <p class="error-message">Пароли не совпадают</p>
+        <p class="form-text">Confirm Password</p>
+        <input
+          type="password"
+          name="name"
+          class="input"
+          id="form-conf-password"
+          placeholder="password"
+        /><br />
+        <p class="error-message">Пароли не совпадают</p>
+        <button id="btn-sign-in" class="btn-sign-in" type="button">Save</button>
+      </form>
+    </div>
+    <p class="result" id="result">Ваши данные сохранены!</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
