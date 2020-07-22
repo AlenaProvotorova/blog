@@ -1,5 +1,49 @@
-function Sidebar() {
-  this.activeSidebar = 1;
+class Sidebar {
+  constructor() {
+    this.activeSidebar = 1;
+  }
+
+  getCurrentIdFromCookie() {
+    const currentUserId = document.cookie.replace(
+      /(?:(?:^|.*;\s*)CurrentUserId\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    return currentUserId;
+  }
+
+  showCurrentUsersPosts() {
+    const id = this.getCurrentIdFromCookie();
+
+    const formAddPostData = {
+      currentUserId: id,
+    };
+
+    axios
+      .post("/currentUser", {
+        currentUserId: formAddPostData.currentUserId,
+      })
+      .then(function (res) {
+        post.deletePosts();
+        blogVariables.postsList.append(post.createPostsFragment(res.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert(error);
+      });
+  }
+
+  showAllPosts() {
+    axios
+      .get("/posts")
+      .then(function (res) {
+        post.deletePosts();
+        blogVariables.postsList.append(post.createPostsFragment(res.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert(error);
+      });
+  }
 }
 
 Sidebar.state = {
@@ -7,52 +51,4 @@ Sidebar.state = {
   all: 1,
 };
 
-Sidebar.publishPost = function () {
-  blogVariables.puplishBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    requestToAddPost().then(() => {
-      blogVariables.modalAddPost.classList.remove("modal_add-post--active");
-      Post.deleteNewPostInput();
-      Post.deletePost();
-      Post.getPosts();
-    });
-  });
-};
-
-Sidebar.showCurrentUsersPosts = function () {
-  console.log("=======priveeet====");
-  const currentUserId = document.cookie.replace(
-    /(?:(?:^|.*;\s*)currentUserId\s*\=\s*([^;]*).*$)|^.*$/,
-    "$1"
-  );
-
-  const formAddPostData = {
-    currentUserId: currentUserId,
-  };
-
-  axios
-    .post("/currentUser", {
-      currentUserId: formAddPostData.currentUserId,
-    })
-    .then(function (res) {
-      Post.deletePostsOnPage();
-      Post.createPostsFromArray(res.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert(error);
-    });
-};
-
-Sidebar.showAllPosts = function () {
-  axios
-    .get("/allPost")
-    .then(function (res) {
-      Post.deletePostsOnPage();
-      Post.createPostsFromArray(res.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert(error);
-    });
-};
+const sidebar = new Sidebar();

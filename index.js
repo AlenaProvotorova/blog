@@ -1,67 +1,81 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const fs = require("fs");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const path = require("path");
+
 require("./db/sequelize");
 const auth = require("./routes/auth");
-const sequelize = require("./db/sequelize");
+const posts = require("./routes/posts");
+const privateStaticPages = ["/home"];
 
 var app = express();
-
-app.use(express.static("public"));
+app.use(cookieParser());
 app.use(bodyParser());
 
+function verifyToken(token) {
+  return jwt.verify(token, "secretTokenKey");
+}
+
+app.get("/", (req, res, next) => {
+  if (req.cookies.token) {
+    res.redirect("/home");
+  }
+  next();
+});
+
+app.use(express.static("public"));
+
+app.use((req, res, next) => {
+  if (!req.cookies.token && privateStaticPages.includes(req.url)) {
+    res.redirect("/");
+  }
+
+  if (req.cookies.token) {
+    try {
+      const payload = verifyToken(req.cookies.token);
+      console.log("=======payload===TOKEN=", payload);
+    } catch (err) {
+      console.log("=======err====", err);
+      res.redirect("/");
+    }
+  }
+  next();
+});
+
 app.use("/", auth);
+app.use("/", posts);
+app.get("/home", (req, res) =>
+  res.sendFile(path.resolve(__dirname + "/private/home.html"))
+);
 
-app.post("/posts", async function (req, res) {
-  const dateDay = new Date().getDate();
-  const dateMonth = new Date().getMonth();
-  const dateYear = new Date().getFullYear();
-  const mainDate = dateDay + "-" + dateMonth + "-" + dateYear;
-
-  const { title, postText, currentUserId } = req.body;
-  const posts = await sequelize.query(
-    "INSERT INTO posts (title, post_text, fk_user_id, date) VALUES (:status)",
-    {
-      replacements: {
-        status: [title, postText, currentUserId, mainDate],
-      },
-      type: sequelize.QueryTypes.INSERT,
-    }
-  );
-
-  if (posts) {
-    res.status(200).send({
-      message: "Post saved in DB",
-    });
+app.post("/user", async function (req, res) {
+  const sequelize = require("./db/sequelize");
+  const users = await sequelize.query("SELECT * FROM users WHERE id = ?", {
+    replacements: [req.body.currentUserId],
+    type: sequelize.QueryTypes.INSERT,
+  });
+  const user = users[0];
+  if (user) {
+    res.send(user[0]);
   }
 });
 
-app.get("/posts", async function (req, res) {
-  const posts = await sequelize.query(
-    "select posts.title, posts.post_text, users.name, posts.date FROM posts INNER JOIN users ON posts.fk_user_id=users.id",
+app.post("/search", async function (req, res) {
+  const sequelize = require("./db/sequelize");
+  const data = `${req.body.input}%`;
+
+  const users = await sequelize.query(
+    "SELECT * FROM users WHERE name ILIKE ?",
     {
+      replacements: [data],
       type: sequelize.QueryTypes.INSERT,
     }
   );
 
-  console.log("=======posts====", posts[0]);
-  if (posts) {
-    res.send(posts[0]);
-  }
-});
-
-app.post("/currentUser", async function (req, res) {
-  const userPosts = await sequelize.query(
-    "select posts.title, posts.post_text, users.name, posts.date FROM posts INNER JOIN users ON posts.fk_user_id=users.id WHERE fk_user_id=? ",
-    {
-      replacements: [req.body.currentUserId],
-      type: sequelize.QueryTypes.INSERT,
-    }
-  );
-  if (userPosts) {
-    let UserObject = userPosts[0];
-    console.log("=======vceokay====", UserObject);
-    res.send(UserObject);
+  if (users) {
+    console.log("===========", users[0]);
+    res.send(users);
   }
 });
 

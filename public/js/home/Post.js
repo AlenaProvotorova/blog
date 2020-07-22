@@ -1,65 +1,92 @@
 class Post {
-  construtor({ title, text, name, date }) {
-    this.title = title;
-    this.text = text;
-    this.name = name;
-    this.date = date;
+  getPosts() {
+    axios
+      .get("/posts")
+      .then(function (res) {
+        this.createPosts(res.data);
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+  }
+
+  clearUpPostInputs() {
+    blogVariables.postTitle.value = "";
+    blogVariables.postText.value = "";
+  }
+
+  deletePosts() {
+    [...blogVariables.postsOnPage].forEach((elem) => {
+      elem.remove();
+    });
+  }
+
+  createPostTemplate(tag, clName, text) {
+    const elem = document.createElement(tag);
+    elem.classList.add(clName);
+    elem.textContent = text;
+
+    return elem;
+  }
+
+  createPostItem = function ({ title, post_text, userName, date }) {
+    const newPost = this.createPostTemplate("div", "post-item");
+    const postTitle = this.createPostTemplate("h2", "post-item__title", title);
+    const postText = this.createPostTemplate("p", "post-item__text", post_text);
+    const postUser = this.createPostTemplate(
+      "span",
+      "post-item__user-name",
+      "namename"
+    );
+    const postDate = this.createPostTemplate(
+      "span",
+      "post-item__post-date",
+      date
+    );
+
+    newPost.append(postTitle);
+    newPost.append(postText);
+    newPost.append(postUser);
+    newPost.append(postDate);
+
+    return newPost;
+  };
+
+  createPostsFragment(arr) {
+    const fragment = new DocumentFragment();
+    arr.forEach((elem) => {
+      fragment.prepend(this.createPostItem(elem));
+    });
+
+    return fragment;
+  }
+
+  addPostInDB() {
+    const currentUserId = document.cookie.replace(
+      /(?:(?:^|.*;\s*)CurrentUserId\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+
+    const formAddPostData = {
+      title: blogVariables.postTitle.value,
+      postText: blogVariables.postText.value,
+      currentUserId: currentUserId,
+    };
+
+    return axios
+      .post("/posts", {
+        title: formAddPostData.title,
+        postText: formAddPostData.postText,
+        currentUserId: formAddPostData.currentUserId,
+      })
+      .then(function (res) {
+        console.log("===========", res.data.message);
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert(error);
+      });
   }
 }
 
-Post.getPosts = function () {
-  axios
-    .get("/posts")
-    .then(function (res) {
-      Post.createPosts(res.data);
-    })
-    .catch(function (error) {
-      alert(error);
-    });
-};
-
-Post.clearUpPostInputs = function () {
-  blogVariables.postTitle.value = "";
-  blogVariables.postText.value = "";
-};
-
-Post.deletePosts = function () {
-  [...blogVariables.postsOnPage].forEach((elem) => {
-    elem.remove();
-  });
-};
-
-Post.createPostMarkUp = function ({ title, text, userName, date }) {
-  const newPost = document.createElement("div");
-  newPost.classList.add("post-item");
-
-  const postTitle = document.createElement("h2");
-  postTitle.classList.add("post-item__title");
-  postTitle.textContent = title;
-
-  const postText = document.createElement("p");
-  postText.classList.add("post-item__text");
-  postText.textContent = text;
-
-  const postUser = document.createElement("span");
-  postUser.classList.add("post-item__user-name");
-  postUser.textContent = userName;
-
-  const postDate = document.createElement("span");
-  postDate.classList.add("post-item__post-date");
-  postDate.textContent = date;
-
-  newPost.append(postTitle);
-  newPost.append(postText);
-  newPost.append(postUser);
-  newPost.append(postDate);
-
-  blogVariables.postsList.append(newPost);
-};
-
-Post.createPosts = function (arr) {
-  arr.forEach((elem) => {
-    const post = new Post(elem);
-    Post.createPostMarkUp(post);
-  });
-};
+const post = new Post();

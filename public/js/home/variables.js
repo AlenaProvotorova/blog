@@ -9,4 +9,13 @@ var blogVariables = {
   puplishBtn: document.querySelector(".btn-publish"),
   postsList: document.querySelector(".posts-list"),
   postsOnPage: document.getElementsByClassName("post-item"),
+  searchFriendsBtn: document.querySelector(".search"),
+  searchInput: document.querySelector(".search-input"),
+  searchActive: document.querySelector(".search--unactive"),
+
+  searchDeleteBtn: document.querySelector(".search_deleteBtn"),
+  headerLinkUsername: document.querySelector(".header-link__username"),
+  userMenu: document.querySelector(".user-menu"),
+  btnLeaveBlog: document.querySelector(".user-menu__link"),
+  dropDownMenu: document.querySelector(".drop-down-menu"),
 };

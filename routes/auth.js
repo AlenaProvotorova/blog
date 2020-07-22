@@ -1,8 +1,26 @@
 const express = require("express");
 const sequelize = require("../db/sequelize");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
-router.post("/sign-in", async function (req, res) {
+function loger(req, res, next) {
+  console.log("=======console====", req.body);
+  next();
+}
+
+const tokenKey = "secretTokenKey";
+function createToken(userEmail, userId) {
+  const token = jwt.sign(
+    {
+      email: userEmail,
+      id: userId,
+    },
+    tokenKey
+  );
+  return token;
+}
+
+router.post("/sign-in", loger, async function (req, res) {
   const { email, password } = req.body;
   const users = await sequelize.query("SELECT * FROM users WHERE email = ?", {
     replacements: [email],
@@ -12,8 +30,9 @@ router.post("/sign-in", async function (req, res) {
   const user = users[0];
 
   if (user && user.password === password) {
+    const token = createToken(user.email, user.id);
+    res.cookie("token", token);
     res.status(200).send({
-      message: "ОК",
       userId: `${user.id}`,
     });
   } else {
@@ -21,7 +40,7 @@ router.post("/sign-in", async function (req, res) {
   }
 });
 
-router.post("/sign-up", async function (req, res) {
+router.post("/sign-up", loger, async function (req, res) {
   const users = await sequelize.query("SELECT * FROM users WHERE email = ?", {
     replacements: [req.body.email],
     type: sequelize.QueryTypes.SELECT,

@@ -19,16 +19,58 @@
     <title>Blog</title>
   </head>
   <body>
-    <div class="main-wrapper">
-      <div class="first-block">
-        <h1>Blog</h1>
-        <div class="links">
+    <div class="header">
+      <div class="links">
+        <div class="links-left-part">
           <a class="header-link" id="my-posts" href="#">My posts</a>
           <a class="header-link" id="all-posts" href="#">All posts</a>
+        </div>
+        <div class="links-right-part">
           <a class="header-link" id="add-post" href="#">Add post</a>
+          <div class="header-link__user">
+            <i class="fas fa-user"></i>
+            <span class="header-link header-link__username">userName</span>
+          </div>
         </div>
       </div>
-      <div class="posts-list"></div>
+      <div class="user-menu">
+        <a class="user-menu__link" href="#">Выйти из блога</a>
+      </div>
+    </div>
+
+    <div class="main-wrapper">
+      <div class="search">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="search--unactive" id="search--active">
+        <input class="search-input" type="text" placeholder="search..." />
+        <i class="fas fa-times search_deleteBtn"></i>
+      </div>
+      <!-- drop-down-menu -->
+      <div class="drop-down-menu">
+        <div class="drop-down-menu__user">
+          <span>userName</span>
+          <i class="far fa-heart"></i>
+        </div>
+      </div>
+      <div class="first-block">
+        <div class="logo"></div>
+      </div>
+      <div class="poster"></div>
+      <div class="main-block">
+        <div class="posts-list"></div>
+        <div class="user-block">
+          <div class="user-photo">
+            <img
+              class="user-photo-img"
+              src="img/1367582519_247228393.jpg"
+              alt=""
+            />
+          </div>
+          <p>Количество постов -</p>
+          <p>Друзья -</p>
+        </div>
+      </div>
     </div>
 
     <!--modal-->
@@ -60,21 +102,17 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
-    <script src="/js/scriptHomeFolder/sidebar.js"></script>
-    <script src="/js/scriptHomeFolder/Post.js"></script>
-    <script src="/js/scriptHomeFolder/variables.js"></script>
-    <script src="/js/controller.js"></script>
+    <script src="js/home/variables.js"></script>
+    <script src="js/home/sidebar.js"></script>
+    <script src="js/home/Post.js"></script>
+    <script src="js/btns.js"></script>
+    <script src="js/Users.js"></script>
+    <script src="js/controller.js"></script>
 
-    <script src="/js/scriptHomeFolder/scriptHome.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", function () {
-        Controller.init();
+        AppController.init();
       });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/brownies"></script>
-    <script>
-      // Extract it since we only define `brownies` globally
-      const { cookies, local } = brownies;
     </script>
   </body>
 </html>
