@@ -14,7 +14,6 @@ var blogVariables = {
   searchFriendsBtn: document.querySelector(".search"),
   searchInput: document.querySelector(".search-input"),
   searchActive: document.querySelector(".search--unactive"),
-
   searchDeleteBtn: document.querySelector(".search_deleteBtn"),
   headerLinkUsername: document.querySelector(".header-link__username"),
   userMenu: document.querySelector(".user-menu"),
