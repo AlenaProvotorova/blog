@@ -5,12 +5,10 @@
 }
 
 body {
-  background-image: linear-gradient(
-    to top,
-    rgb(206, 250, 253),
-    rgb(255, 218, 239)
-  );
+  background-image: url("../img/1592878964_p-multfilm-timon-i-pumba-56.jpg");
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   height: 100vh;
   font-family: "Roboto", sans-serif;
 }
@@ -22,7 +20,7 @@ body {
   padding: 10px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 9px 0px rgba(0, 0, 0, 0.185);
+  box-shadow: 0 10px 20px 10px rgba(0, 0, 0, 0.3);
 }
 
 h2 {
@@ -66,7 +64,7 @@ h2 {
   padding: 10px 20px;
   font-size: 20px;
   color: #fff;
-  background-color: rgb(42, 127, 238);
+  background-color: rgb(68, 127, 124);
   border: 1px solid transparent;
   border-radius: 5px;
   cursor: pointer;
@@ -74,7 +72,7 @@ h2 {
 }
 
 .btn-sign-in:hover {
-  background-color: rgb(253, 141, 204);
+  background-color: rgb(150, 46, 86);
 }
 
 .error-message {
@@ -108,4 +106,20 @@ h1 {
   margin-top: 20px;
   font-size: 50px;
   color: rgb(255, 0, 144);
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.link__auth {
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  background-color: rgb(150, 46, 86);
+  margin: 10px;
+  color: #fff;
+  border-radius: 5px;
 }

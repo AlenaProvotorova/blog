@@ -26,10 +26,12 @@
           <a class="header-link" id="all-posts" href="#">All posts</a>
         </div>
         <div class="links-right-part">
-          <a class="header-link" id="add-post" href="#">Add post</a>
+          <a class="header-link" id="add-post" href="#"
+            ><i class="fas fa-plus-circle"></i> Add post</a
+          >
           <div class="header-link__user">
             <i class="fas fa-user"></i>
-            <span class="header-link header-link__username">userName</span>
+            <div class="header-link header-link__username">userName</div>
           </div>
         </div>
       </div>
@@ -47,16 +49,12 @@
         <i class="fas fa-times search_deleteBtn"></i>
       </div>
       <!-- drop-down-menu -->
-      <div class="drop-down-menu">
-        <div class="drop-down-menu__user">
-          <span>userName</span>
-          <i class="far fa-heart"></i>
-        </div>
-      </div>
+      <div class="drop-down-menu"></div>
       <div class="first-block">
         <div class="logo"></div>
       </div>
       <div class="poster"></div>
+      <div class="posts-list__elem">POSTS</div>
       <div class="main-block">
         <div class="posts-list"></div>
         <div class="user-block">
@@ -67,8 +65,15 @@
               alt=""
             />
           </div>
-          <p>Количество постов -</p>
-          <p>Друзья -</p>
+          <div class="user-block__info">
+            <p>
+              <strong>Количество постов - </strong>
+              <span class="post-amount"></span>
+            </p>
+            <p>
+              <strong>Друзья - </strong> <span class="subscribes-amount"></span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -76,22 +81,19 @@
     <!--modal-->
     <div class="modal_add-post">
       <div class="add-post__main">
-        <div class="modal__author">
-          <span>Автор:</span>
-          <span>Имя Автора</span>
-        </div>
-        <div class="modal__date">
-          <span>Дата:</span>
-          <span>Текущая дата</span>
-        </div>
-        <form action="">
-          <input id="post-title" type="text" placeholder="Title" /><br />
+        <form action="" class="add-post__form">
+          <input
+            class="post-title"
+            id="post-title"
+            type="text"
+            placeholder="TITLE"
+          /><br />
           <textarea
             class="post-text"
             name=""
             cols="30"
             rows="10"
-            placeholder="Write your post"
+            placeholder="WRITE YOUR POST"
           ></textarea>
           <button class="btn-publish">Publish</button>
         </form>
@@ -99,6 +101,10 @@
           <i class="fas fa-times"></i>
         </div>
       </div>
+    </div>
+    <!-- Popup post published successfully-->
+    <div class="popup-succsess">
+      <div class="popup-text">post published successfully</div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>

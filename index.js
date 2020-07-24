@@ -7,6 +7,9 @@ const path = require("path");
 require("./db/sequelize");
 const auth = require("./routes/auth");
 const posts = require("./routes/posts");
+const search = require("./routes/search");
+const user = require("./routes/user");
+const sub = require("./routes/sub");
 const privateStaticPages = ["/home"];
 
 var app = express();
@@ -45,38 +48,11 @@ app.use((req, res, next) => {
 
 app.use("/", auth);
 app.use("/", posts);
+app.use("/", search);
+app.use("/", user);
+app.use("/", sub);
 app.get("/home", (req, res) =>
   res.sendFile(path.resolve(__dirname + "/private/home.html"))
 );
-
-app.post("/user", async function (req, res) {
-  const sequelize = require("./db/sequelize");
-  const users = await sequelize.query("SELECT * FROM users WHERE id = ?", {
-    replacements: [req.body.currentUserId],
-    type: sequelize.QueryTypes.INSERT,
-  });
-  const user = users[0];
-  if (user) {
-    res.send(user[0]);
-  }
-});
-
-app.post("/search", async function (req, res) {
-  const sequelize = require("./db/sequelize");
-  const data = `${req.body.input}%`;
-
-  const users = await sequelize.query(
-    "SELECT * FROM users WHERE name ILIKE ?",
-    {
-      replacements: [data],
-      type: sequelize.QueryTypes.INSERT,
-    }
-  );
-
-  if (users) {
-    console.log("===========", users[0]);
-    res.send(users);
-  }
-});
 
 app.listen(3000);

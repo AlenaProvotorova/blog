@@ -12,7 +12,7 @@ class Sidebar {
   }
 
   showCurrentUsersPosts() {
-    const id = this.getCurrentIdFromCookie();
+    const id = sidebar.getCurrentIdFromCookie();
 
     const formAddPostData = {
       currentUserId: id,
@@ -23,8 +23,12 @@ class Sidebar {
         currentUserId: formAddPostData.currentUserId,
       })
       .then(function (res) {
-        post.deletePosts();
-        blogVariables.postsList.append(post.createPostsFragment(res.data));
+        if (res.data[0]) {
+          post.deletePosts();
+          blogVariables.postsList.append(post.createPostsFragment(res.data));
+        } else {
+          blogVariables.postsList.innerHTML = `<span class="note-emptyPostList">The list of posts is empty</span>`;
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -36,8 +40,12 @@ class Sidebar {
     axios
       .get("/posts")
       .then(function (res) {
-        post.deletePosts();
-        blogVariables.postsList.append(post.createPostsFragment(res.data));
+        if (res.data[0]) {
+          post.deletePosts();
+          blogVariables.postsList.append(post.createPostsFragment(res.data));
+        } else {
+          blogVariables.postsList.innerHTML = `<span class="note-emptyPostList">The list of posts is empty</span>`;
+        }
       })
       .catch(function (error) {
         console.log(error);

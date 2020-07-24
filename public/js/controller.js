@@ -13,10 +13,12 @@ class Controller {
 
     blogVariables.linkaddPost.addEventListener("click", () => {
       blogVariables.modalAddPost.classList.add("modal_add-post--active");
+      blogVariables.addPostMain.classList.add("add-post__main--active");
     });
 
     blogVariables.modalCloseIcon.addEventListener("click", () => {
       blogVariables.modalAddPost.classList.remove("modal_add-post--active");
+      blogVariables.addPostMain.classList.remove("add-post__main--active");
     });
 
     blogVariables.puplishBtn.addEventListener("click", (e) => {
@@ -34,6 +36,9 @@ class Controller {
     });
 
     blogVariables.searchDeleteBtn.addEventListener("click", function () {
+      btns.clearSearchInput();
+      user.deleteUsers();
+      blogVariables.dropDownMenu.classList.remove("drop-down-menu--active");
       btns.changeSearchInput("flex", "search--active", "search--unactive");
     });
 
@@ -48,7 +53,11 @@ class Controller {
       window.location = "http://localhost:3000/singIn.html";
     });
 
+    btns.sendInputRequest();
     user.checkUserName();
+    sidebar.showCurrentUsersPosts();
+    user.checkSubscribesAmount();
+    post.checkPostsAmount();
   }
 }
 

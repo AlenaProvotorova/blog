@@ -16,6 +16,9 @@ class Post {
   }
 
   deletePosts() {
+    btns.clearSearchInput();
+    btns.changeSearchInput("flex", "search--active", "search--unactive");
+    blogVariables.postsList.innerHTML = "";
     [...blogVariables.postsOnPage].forEach((elem) => {
       elem.remove();
     });
@@ -29,15 +32,19 @@ class Post {
     return elem;
   }
 
-  createPostItem = function ({ title, post_text, userName, date }) {
+  createPostItem = function ({ title, post_text, name, date }) {
     const newPost = this.createPostTemplate("div", "post-item");
     const postTitle = this.createPostTemplate("h2", "post-item__title", title);
     const postText = this.createPostTemplate("p", "post-item__text", post_text);
+    const userInfo = this.createPostTemplate("div", "user-info");
     const postUser = this.createPostTemplate(
       "span",
       "post-item__user-name",
-      "namename"
+      name
     );
+    const calendarIcon = this.createPostTemplate("i", "far");
+    calendarIcon.classList.add("fa-calendar-alt");
+
     const postDate = this.createPostTemplate(
       "span",
       "post-item__post-date",
@@ -46,8 +53,10 @@ class Post {
 
     newPost.append(postTitle);
     newPost.append(postText);
-    newPost.append(postUser);
-    newPost.append(postDate);
+    userInfo.append(postUser);
+    userInfo.append(calendarIcon);
+    userInfo.append(postDate);
+    newPost.append(userInfo);
 
     return newPost;
   };
@@ -80,11 +89,33 @@ class Post {
         currentUserId: formAddPostData.currentUserId,
       })
       .then(function (res) {
-        console.log("===========", res.data.message);
+        btns.showPopup("post published successfully");
+        sidebar.showCurrentUsersPosts();
       })
       .catch(function (error) {
         console.log(error);
         alert(error);
+      });
+  }
+
+  checkPostsAmount() {
+    const id = sidebar.getCurrentIdFromCookie();
+
+    const formAddPostData = {
+      currentUserId: id,
+    };
+
+    axios
+      .get("/postsamount", {
+        params: {
+          currentUserId: formAddPostData.currentUserId,
+        },
+      })
+      .then((res) => {
+        blogVariables.postsAmount.innerHTML = res.data.count;
+      })
+      .catch((err) => {
+        alert(err);
       });
   }
 }
