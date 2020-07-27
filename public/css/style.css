@@ -16,7 +16,7 @@ body {
 .main-form {
   width: 400px;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 15px;
   padding: 10px;
   background-color: #fff;
   border-radius: 10px;
@@ -120,6 +120,7 @@ h1 {
   padding: 10px 20px;
   background-color: rgb(150, 46, 86);
   margin: 10px;
+  margin-top: 80px;
   color: #fff;
   border-radius: 5px;
 }

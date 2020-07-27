@@ -22,8 +22,12 @@
     <div class="header">
       <div class="links">
         <div class="links-left-part">
-          <a class="header-link" id="my-posts" href="#">My posts</a>
-          <a class="header-link" id="all-posts" href="#">All posts</a>
+          <a class="header-link header-link__left" id="my-posts" href="#"
+            >My posts</a
+          >
+          <a class="header-link header-link__left" id="all-posts" href="#"
+            >All posts</a
+          >
         </div>
         <div class="links-right-part">
           <a class="header-link" id="add-post" href="#"
@@ -41,15 +45,18 @@
     </div>
 
     <div class="main-wrapper">
-      <div class="search">
-        <i class="fas fa-search"></i>
+      <div class="block-search">
+        <div class="search">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="search--unactive" id="search--active">
+          <input class="search-input" type="text" placeholder="search..." />
+          <i class="fas fa-times search_deleteBtn"></i>
+        </div>
+        <!-- drop-down-menu -->
+        <div class="drop-down-menu"></div>
       </div>
-      <div class="search--unactive" id="search--active">
-        <input class="search-input" type="text" placeholder="search..." />
-        <i class="fas fa-times search_deleteBtn"></i>
-      </div>
-      <!-- drop-down-menu -->
-      <div class="drop-down-menu"></div>
+
       <div class="first-block">
         <div class="logo"></div>
       </div>

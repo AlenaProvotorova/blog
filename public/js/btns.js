@@ -18,6 +18,13 @@ class Btns {
     }, 1500);
   }
 
+  clearSearchField() {
+    btns.clearSearchInput();
+    user.deleteUsers();
+    blogVariables.dropDownMenu.classList.remove("drop-down-menu--active");
+    btns.changeSearchInput("flex", "search--active", "search--unactive");
+  }
+
   sendInputRequest() {
     blogVariables.searchInput.addEventListener("input", () => {
       const currentUserId = sidebar.getCurrentIdFromCookie();

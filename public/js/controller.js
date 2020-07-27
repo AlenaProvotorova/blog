@@ -36,10 +36,7 @@ class Controller {
     });
 
     blogVariables.searchDeleteBtn.addEventListener("click", function () {
-      btns.clearSearchInput();
-      user.deleteUsers();
-      blogVariables.dropDownMenu.classList.remove("drop-down-menu--active");
-      btns.changeSearchInput("flex", "search--active", "search--unactive");
+      btns.clearSearchField();
     });
 
     blogVariables.headerLinkUsername.addEventListener("click", function () {
@@ -53,9 +50,21 @@ class Controller {
       window.location = "http://localhost:3000/singIn.html";
     });
 
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+      const check = target.closest(".block-search");
+
+      if (!check) {
+        btns.clearSearchField();
+      }
+    });
+
+    +sidebar.activeSidebar === 0
+      ? sidebar.showCurrentUsersPosts()
+      : sidebar.showAllPosts();
+
     btns.sendInputRequest();
     user.checkUserName();
-    sidebar.showCurrentUsersPosts();
     user.checkSubscribesAmount();
     post.checkPostsAmount();
   }

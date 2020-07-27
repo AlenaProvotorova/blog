@@ -1,6 +1,7 @@
 class Sidebar {
   constructor() {
-    this.activeSidebar = 1;
+    //получить из локал сторедж
+    this.activeSidebar = localStorage.getItem("activeSidebar");
   }
 
   getCurrentIdFromCookie() {
@@ -11,7 +12,27 @@ class Sidebar {
     return currentUserId;
   }
 
+  saveInLocalStorage(name, num) {
+    localStorage.setItem(name, num);
+  }
+
+  deleteClass(arr, className) {
+    [...arr].forEach((elem) => {
+      elem.classList.remove(className);
+    });
+  }
+
+  addClass(elem, className) {
+    elem.classList.add(className);
+  }
+
+  checkLinkStyle(elem) {
+    sidebar.deleteClass(blogVariables.headerLinkPosts, "header-link__posts");
+    sidebar.addClass(elem, "header-link__posts");
+  }
+
   showCurrentUsersPosts() {
+    sidebar.checkLinkStyle(blogVariables.myPosts);
     const id = sidebar.getCurrentIdFromCookie();
 
     const formAddPostData = {
@@ -26,6 +47,7 @@ class Sidebar {
         if (res.data[0]) {
           post.deletePosts();
           blogVariables.postsList.append(post.createPostsFragment(res.data));
+          sidebar.saveInLocalStorage("activeSidebar", 0);
         } else {
           blogVariables.postsList.innerHTML = `<span class="note-emptyPostList">The list of posts is empty</span>`;
         }
@@ -37,12 +59,14 @@ class Sidebar {
   }
 
   showAllPosts() {
+    sidebar.checkLinkStyle(blogVariables.allPosts);
     axios
       .get("/posts")
       .then(function (res) {
         if (res.data[0]) {
           post.deletePosts();
           blogVariables.postsList.append(post.createPostsFragment(res.data));
+          sidebar.saveInLocalStorage("activeSidebar", 1);
         } else {
           blogVariables.postsList.innerHTML = `<span class="note-emptyPostList">The list of posts is empty</span>`;
         }
@@ -53,10 +77,5 @@ class Sidebar {
       });
   }
 }
-
-Sidebar.state = {
-  my: 0,
-  all: 1,
-};
 
 const sidebar = new Sidebar();

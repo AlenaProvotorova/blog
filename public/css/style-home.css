@@ -51,6 +51,37 @@ body {
   text-decoration: none;
   padding: 0 20px;
 }
+
+.header-link__left {
+  position: relative;
+}
+
+.header-link__left::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background-color: rgb(140, 199, 195);
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out;
+}
+
+.header-link__left:hover::after {
+  transform: scaleX(1);
+}
+
+.header-link__posts::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background-color: rgb(140, 199, 195);
+}
+
 .header-link__user {
   padding-left: 0;
   display: inline;
@@ -61,7 +92,8 @@ body {
 }
 .header-link:hover,
 .header-link__user:hover {
-  color: rgb(198, 245, 242);
+  color: rgb(207, 243, 241);
+  transition: all 0.1s ease-in-out;
 }
 
 .user-menu {
