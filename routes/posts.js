@@ -2,7 +2,7 @@ const express = require("express");
 const sequelize = require("../db/sequelize");
 const router = express.Router();
 
-router.post("/posts", async function (req, res) {
+router.post("/", async function (req, res) {
   const dateDay = new Date().getDate();
   const dateMonth = new Date().getMonth();
   const dateYear = new Date().getFullYear();
@@ -26,15 +26,15 @@ router.post("/posts", async function (req, res) {
   }
 });
 
-router.get("/posts", async function (req, res) {
-  console.log("======req.co.currentUserId=====", req.cookies.CurrentUserId);
+router.get("/", async function (req, res) {
+  console.log("=======Где куки====", req.cookies);
   const posts = await sequelize.query(
     `SELECT title, post_text, date, follower_id::bool AS is_follower , users.name FROM posts 
     LEFT JOIN subscriptions ON posts.fk_user_id = subscriptions.user_id AND subscriptions.follower_id = ? 
     LEFT JOIN users ON subscriptions.user_id = users.id WHERE follower_id IS NOT NULL`,
     {
-      replacements: [+req.cookies.CurrentUserId],
-      type: sequelize.QueryTypes.INSERT,
+      replacements: [req.cookies.CurrentUserId],
+      type: sequelize.QueryTypes.SELECT,
     }
   );
 
@@ -43,11 +43,11 @@ router.get("/posts", async function (req, res) {
   }
 });
 
-router.post("/currentUser", async function (req, res) {
+router.get("/currentUser", async function (req, res) {
   const userPosts = await sequelize.query(
-    "select posts.title, posts.post_text, users.name, posts.date FROM posts INNER JOIN users ON posts.fk_user_id=users.id WHERE fk_user_id=? ",
+    "SELECT posts.title, posts.post_text, users.name, posts.date FROM posts INNER JOIN users ON posts.fk_user_id=users.id WHERE fk_user_id=? ",
     {
-      replacements: [req.body.currentUserId],
+      replacements: [+req.cookies.CurrentUserId],
       type: sequelize.QueryTypes.INSERT,
     }
   );
@@ -58,7 +58,7 @@ router.post("/currentUser", async function (req, res) {
   }
 });
 
-router.get("/postsamount", async function (req, res) {
+router.get("/amount", async function (req, res) {
   const amount = await sequelize.query(
     "SELECT COUNT(title) FROM posts WHERE fk_user_id = ?",
     {

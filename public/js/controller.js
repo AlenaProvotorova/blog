@@ -26,7 +26,7 @@ class Controller {
       post.addPostInDB().then(() => {
         blogVariables.modalAddPost.classList.remove("modal_add-post--active");
         post.clearUpPostInputs();
-        post.deletePost();
+        post.deletePosts();
         post.getPosts();
       });
     });

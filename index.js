@@ -37,9 +37,9 @@ app.use((req, res, next) => {
   if (req.cookies.token) {
     try {
       const payload = verifyToken(req.cookies.token);
-      console.log("=======payload===TOKEN=", payload);
+      // console.log("=======payload===TOKEN=", payload);
     } catch (err) {
-      console.log("=======err====", err);
+      // console.log("=======err====", err);
       res.redirect("/");
     }
   }
@@ -47,9 +47,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/", auth);
-app.use("/", posts);
+app.use("/posts", posts);
 app.use("/", search);
-app.use("/", user);
+app.use("/users", user);
 app.use("/", sub);
 app.get("/home", (req, res) =>
   res.sendFile(path.resolve(__dirname + "/private/home.html"))

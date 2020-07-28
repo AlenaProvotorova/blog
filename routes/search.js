@@ -2,7 +2,7 @@ const express = require("express");
 const sequelize = require("../db/sequelize");
 const router = express.Router();
 
-router.get("/search", async function (req, res) {
+router.get("/users", async function (req, res) {
   const data = `%${req.query.input}%`;
   const id = req.query.id;
 
@@ -11,7 +11,10 @@ router.get("/search", async function (req, res) {
     On users.id = subscriptions.user_id and subscriptions.follower_id = ?  where users.name ilike ? AND NOT users.id = ?`,
 
     {
-      replacements: [id, data, id],
+      replacements: {
+        id,
+        data,
+      },
       type: sequelize.QueryTypes.INSERT,
     }
   );

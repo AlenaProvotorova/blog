@@ -1,6 +1,5 @@
 class Sidebar {
   constructor() {
-    //получить из локал сторедж
     this.activeSidebar = localStorage.getItem("activeSidebar");
   }
 
@@ -40,9 +39,7 @@ class Sidebar {
     };
 
     axios
-      .post("/currentUser", {
-        currentUserId: formAddPostData.currentUserId,
-      })
+      .get("/posts/currentUser")
       .then(function (res) {
         if (res.data[0]) {
           post.deletePosts();

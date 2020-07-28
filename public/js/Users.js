@@ -5,9 +5,7 @@ class Users {
       currentUserId: id,
     };
     axios
-      .post("/user", {
-        currentUserId: userData.currentUserId,
-      })
+      .get("/users")
       .then(function (res) {
         const userName = res.data.name;
 
@@ -94,18 +92,8 @@ class Users {
   }
 
   checkSubscribesAmount() {
-    const id = sidebar.getCurrentIdFromCookie();
-
-    const formAddPostData = {
-      currentUserId: id,
-    };
-
     axios
-      .get("/friendsamount", {
-        params: {
-          currentUserId: formAddPostData.currentUserId,
-        },
-      })
+      .get("/users/friendsAmount")
       .then((res) => {
         blogVariables.subscribesAmount.innerHTML = res.data.count;
       })

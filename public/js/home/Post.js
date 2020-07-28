@@ -106,7 +106,7 @@ class Post {
     };
 
     axios
-      .get("/postsamount", {
+      .get("/posts/amount", {
         params: {
           currentUserId: formAddPostData.currentUserId,
         },

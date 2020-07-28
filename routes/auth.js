@@ -2,23 +2,8 @@ const express = require("express");
 const sequelize = require("../db/sequelize");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-
-function loger(req, res, next) {
-  console.log("=======console====", req.body);
-  next();
-}
-
-const tokenKey = "secretTokenKey";
-function createToken(userEmail, userId) {
-  const token = jwt.sign(
-    {
-      email: userEmail,
-      id: userId,
-    },
-    tokenKey
-  );
-  return token;
-}
+const loger = require("../middlewars/loger");
+const dotenv = require("dotenv").config();
 
 router.post("/sign-in", loger, async function (req, res) {
   const { email, password } = req.body;
