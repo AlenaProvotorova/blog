@@ -22,41 +22,47 @@ router.get(
   })
 );
 
-router.get("/allUsers", async function (req, res) {
-  const userId = token.getUserId(req.cookies.token);
+router.get(
+  "/allUsers",
+  helper.tryCatchFunc(async function (req, res) {
+    const userId = token.getUserId(req.cookies.token);
 
-  const users = await sequelize.query(
-    `SELECT users.id, users.name, follower_id::bool AS is_follower 
+    const users = await sequelize.query(
+      `SELECT users.id, users.name, follower_id::bool AS is_follower 
     FROM users 
     LEFT JOIN subscriptions 
     ON users.id = subscriptions.user_id AND subscriptions.follower_id = $1  
     WHERE users.name ILIKE $2 AND NOT users.id = $1`,
 
-    {
-      bind: [userId, `%${req.query.input}%`],
-      type: sequelize.QueryTypes.SELECT,
+      {
+        bind: [userId, `%${req.query.input}%`],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    if (users) {
+      res.send(users);
     }
-  );
+  })
+);
 
-  if (users) {
-    res.send(users);
-  }
-});
+router.get(
+  "/friendsAmount",
+  helper.tryCatchFunc(async function (req, res) {
+    const userId = token.getUserId(req.cookies.token);
 
-router.get("/friendsAmount", async function (req, res) {
-  const userId = token.getUserId(req.cookies.token);
+    const amount = await sequelize.query(
+      "SELECT COUNT(user_id) FROM subscriptions WHERE subscriptions.follower_id = ?",
+      {
+        replacements: [userId],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
 
-  const amount = await sequelize.query(
-    "SELECT COUNT(user_id) FROM subscriptions WHERE subscriptions.follower_id = ?",
-    {
-      replacements: [userId],
-      type: sequelize.QueryTypes.SELECT,
+    if (amount) {
+      res.send(amount[0]);
     }
-  );
-
-  if (amount) {
-    res.send(amount[0]);
-  }
-});
+  })
+);
 
 module.exports = router;
