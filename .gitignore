@@ -1,3 +1,4 @@
 node_modules/
 app/*
 !app/index.css
+.env

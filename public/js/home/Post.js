@@ -1,15 +1,4 @@
 class Post {
-  getPosts() {
-    axios
-      .get("/posts")
-      .then(function (res) {
-        this.createPosts(res.data);
-      })
-      .catch(function (error) {
-        alert(error);
-      });
-  }
-
   clearUpPostInputs() {
     blogVariables.postTitle.value = "";
     blogVariables.postText.value = "";
@@ -99,18 +88,8 @@ class Post {
   }
 
   checkPostsAmount() {
-    const id = sidebar.getCurrentIdFromCookie();
-
-    const formAddPostData = {
-      currentUserId: id,
-    };
-
     axios
-      .get("/posts/amount", {
-        params: {
-          currentUserId: formAddPostData.currentUserId,
-        },
-      })
+      .get("/posts/amount")
       .then((res) => {
         blogVariables.postsAmount.innerHTML = res.data.count;
       })

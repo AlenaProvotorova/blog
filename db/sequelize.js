@@ -1,16 +1,18 @@
 const { Sequelize } = require("sequelize");
+require("dotenv").config();
+const messages = require("../helpers/hashmap");
 
 const sequelize = new Sequelize("blog", "postgres", "72511", {
-  host: "localhost",
-  dialect: "postgres",
-  port: 5432,
+  host: process.env.SQ_HOST,
+  dialect: process.env.SQ_DIALECT,
+  port: process.env.SQ_PORT,
 });
 
 sequelize
   .authenticate()
 
-  .then(() => console.log("Connection has been established successfully."))
+  .then(() => console.log(messages.sequilizeConnectionSuccsess))
 
-  .catch((err) => console.error("Unable to connect to the database:", err));
+  .catch((err) => console.error(messages.sequilizeConnectionError, err));
 
 module.exports = sequelize;

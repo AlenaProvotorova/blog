@@ -27,19 +27,15 @@ class Btns {
 
   sendInputRequest() {
     blogVariables.searchInput.addEventListener("input", () => {
-      const currentUserId = sidebar.getCurrentIdFromCookie();
-
       const inputData = {
         inputdata: blogVariables.searchInput.value,
-        currentUserId: currentUserId,
       };
 
       if (blogVariables.searchInput.value !== "") {
         axios
-          .get("/search", {
+          .get("/users/allUsers", {
             params: {
               input: inputData.inputdata,
-              id: inputData.currentUserId,
             },
           })
           .then(function (res) {
@@ -53,7 +49,6 @@ class Btns {
                 user.createUserFragment(res.data)
               );
             } else {
-              console.log("=======нет совпадений====");
               blogVariables.dropDownMenu.classList.add(
                 "drop-down-menu--active"
               );

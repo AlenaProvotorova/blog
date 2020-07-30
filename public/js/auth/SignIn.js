@@ -48,22 +48,21 @@ class SignIn {
       };
 
       axios
-        .post("/sign-in", {
-          email: formData.email,
-          password: formData.password,
+        .get("/sign-in", {
+          params: {
+            email: formData.email,
+            password: formData.password,
+          },
         })
         .then(function (response) {
           window.location = "http://localhost:3000/home";
-
-          const currentUserId = response.data.userId;
-          document.cookie = `CurrentUserId = ${currentUserId}`;
         })
 
         .catch(function (error) {
-          alert("Неправильно введен логин или пароль");
+          if (error.response) {
+            alert(error.response.data.message);
+          }
         });
-    } else {
-      console.log("плохо");
     }
   }
 

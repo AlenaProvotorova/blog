@@ -72,7 +72,6 @@ class SignUp {
     const isValid = this.validateMain();
 
     // if (isValid || true) {
-    console.log("all good");
     const formData = {
       name: regVariables.formName.value,
       email: regVariables.formEmail.value,
@@ -103,7 +102,6 @@ class SignUp {
   checkToken() {}
 
   init = function () {
-    console.log("=======нажала====");
     regVariables.btn.addEventListener("click", (e) => {
       e.preventDefault();
 

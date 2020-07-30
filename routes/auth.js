@@ -3,10 +3,13 @@ const sequelize = require("../db/sequelize");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const loger = require("../middlewars/loger");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
+const token = require("../utiles/token");
+const helper = require("../helpers/Helper");
+const messages = require("../helpers/hashmap");
 
-router.post("/sign-in", loger, async function (req, res) {
-  const { email, password } = req.body;
+router.get("/sign-in", loger, async function (req, res) {
+  const { email, password } = req.query;
   const users = await sequelize.query("SELECT * FROM users WHERE email = ?", {
     replacements: [email],
     type: sequelize.QueryTypes.SELECT,
@@ -15,13 +18,14 @@ router.post("/sign-in", loger, async function (req, res) {
   const user = users[0];
 
   if (user && user.password === password) {
-    const token = createToken(user.email, user.id);
-    res.cookie("token", token);
+    res.cookie("token", token.createToken(user.email, user.id));
     res.status(200).send({
-      userId: `${user.id}`,
+      message: messages.singInSuccsess,
     });
   } else {
-    res.status(401).send();
+    res.status(401).send({
+      message: messages.singInError,
+    });
   }
 });
 
@@ -34,7 +38,7 @@ router.post("/sign-up", loger, async function (req, res) {
   const user = users[0];
   if (user) {
     res.status(200).send({
-      message: "A user with this email already exists.",
+      message: messages.singUpErrorUserExist,
     });
   } else {
     const { name, email, password } = req.body;
@@ -48,7 +52,7 @@ router.post("/sign-up", loger, async function (req, res) {
 
     if (person) {
       res.status(200).send({
-        message: "Registration sucsessfully",
+        message: messages.singInSuccsess,
       });
     }
   }

@@ -27,7 +27,8 @@ class Controller {
         blogVariables.modalAddPost.classList.remove("modal_add-post--active");
         post.clearUpPostInputs();
         post.deletePosts();
-        post.getPosts();
+        sidebar.showCurrentUsersPosts();
+        post.checkPostsAmount();
       });
     });
 
@@ -44,8 +45,6 @@ class Controller {
     });
 
     blogVariables.btnLeaveBlog.addEventListener("click", function () {
-      document.cookie =
-        "CurrentUserId=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
       document.cookie = "token=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
       window.location = "http://localhost:3000/singIn.html";
     });
@@ -56,6 +55,15 @@ class Controller {
 
       if (!check) {
         btns.clearSearchField();
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+      const check = target.closest(".header");
+
+      if (!check) {
+        blogVariables.userMenu.classList.remove("user-menu--active");
       }
     });
 

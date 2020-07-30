@@ -5,7 +5,7 @@ class Sidebar {
 
   getCurrentIdFromCookie() {
     const currentUserId = document.cookie.replace(
-      /(?:(?:^|.*;\s*)CurrentUserId\s*\=\s*([^;]*).*$)|^.*$/,
+      /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
     return currentUserId;
@@ -32,11 +32,6 @@ class Sidebar {
 
   showCurrentUsersPosts() {
     sidebar.checkLinkStyle(blogVariables.myPosts);
-    const id = sidebar.getCurrentIdFromCookie();
-
-    const formAddPostData = {
-      currentUserId: id,
-    };
 
     axios
       .get("/posts/currentUser")

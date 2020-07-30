@@ -1,14 +1,9 @@
 class Users {
   checkUserName() {
-    const id = sidebar.getCurrentIdFromCookie();
-    const userData = {
-      currentUserId: id,
-    };
     axios
       .get("/users")
       .then(function (res) {
         const userName = res.data.name;
-
         blogVariables.headerLinkUsername.innerHTML = userName;
       })
       .catch();
@@ -33,6 +28,7 @@ class Users {
           })
           .then((res) => {
             btns.showPopup("subscribed successfully");
+            this.checkSubscribesAmount();
           })
           .catch((err) => {
             alert(err);
@@ -42,14 +38,12 @@ class Users {
         isSubscribe.classList.add("far");
 
         axios
-          .delete("/subscription", {
-            params: {
-              currentUserId: formAddPostData.currentUserId,
-              personFollowId: formAddPostData.personFollowId,
-            },
+          .post("/unsubscription", {
+            personFollowId: formAddPostData.personFollowId,
           })
           .then((res) => {
             btns.showPopup("you unsubscribed");
+            this.checkSubscribesAmount();
           })
           .catch((err) => {
             alert(err);

@@ -230,7 +230,7 @@ body {
 .modal_add-post {
   width: 100%;
   height: 100%;
-  background-color: rgba(97, 30, 56, 0.596);
+  background-color: rgba(0, 0, 0, 0.3);
   display: block;
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -350,10 +350,15 @@ body {
   padding: 0 10px;
 }
 
+.post-item__post-date {
+  padding: 0 10px;
+}
+
 .user-info {
   color: rgba(0, 0, 0, 0.267);
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 5px;
 }
 

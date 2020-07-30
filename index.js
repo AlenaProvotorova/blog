@@ -3,22 +3,18 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
+const tokenModule = require("./utiles/token");
 require("./db/sequelize");
+
 const auth = require("./routes/auth");
 const posts = require("./routes/posts");
-const search = require("./routes/search");
-const user = require("./routes/user");
-const sub = require("./routes/sub");
+const users = require("./routes/users");
+const subscription = require("./routes/subscription");
 const privateStaticPages = ["/home"];
 
 var app = express();
 app.use(cookieParser());
 app.use(bodyParser());
-
-function verifyToken(token) {
-  return jwt.verify(token, "secretTokenKey");
-}
 
 app.get("/", (req, res, next) => {
   if (req.cookies.token) {
@@ -31,16 +27,16 @@ app.use(express.static("public"));
 
 app.use((req, res, next) => {
   if (!req.cookies.token && privateStaticPages.includes(req.url)) {
-    res.redirect("/");
+    res.redirect("/singIn");
   }
 
   if (req.cookies.token) {
     try {
-      const payload = verifyToken(req.cookies.token);
+      const payload = tokenModule.verifyToken(req.cookies.token);
       // console.log("=======payload===TOKEN=", payload);
     } catch (err) {
       // console.log("=======err====", err);
-      res.redirect("/");
+      res.redirect("/signIn");
     }
   }
   next();
@@ -48,9 +44,8 @@ app.use((req, res, next) => {
 
 app.use("/", auth);
 app.use("/posts", posts);
-app.use("/", search);
-app.use("/users", user);
-app.use("/", sub);
+app.use("/users", users);
+app.use("/", subscription);
 app.get("/home", (req, res) =>
   res.sendFile(path.resolve(__dirname + "/private/home.html"))
 );

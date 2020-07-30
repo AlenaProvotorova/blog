@@ -1,6 +1,7 @@
 const express = require("express");
 const sequelize = require("../db/sequelize");
 const router = express.Router();
+const token = require("../utiles/token");
 
 router.post("/", async function (req, res) {
   const dateDay = new Date().getDate();
@@ -8,12 +9,14 @@ router.post("/", async function (req, res) {
   const dateYear = new Date().getFullYear();
   const mainDate = `${dateDay}:${dateMonth}:${dateYear}`;
 
-  const { title, postText, currentUserId } = req.body;
+  const { title, postText } = req.body;
+  const userId = token.getUserId(req.cookies.token);
+
   const posts = await sequelize.query(
     "INSERT INTO posts (title, post_text, fk_user_id, date) VALUES (:status)",
     {
       replacements: {
-        status: [title, postText, currentUserId, mainDate],
+        status: [title, postText, userId, mainDate],
       },
       type: sequelize.QueryTypes.INSERT,
     }
@@ -27,49 +30,53 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/", async function (req, res) {
-  console.log("=======Где куки====", req.cookies);
+  const userId = token.getUserId(req.cookies.token);
+
   const posts = await sequelize.query(
     `SELECT title, post_text, date, follower_id::bool AS is_follower , users.name FROM posts 
     LEFT JOIN subscriptions ON posts.fk_user_id = subscriptions.user_id AND subscriptions.follower_id = ? 
     LEFT JOIN users ON subscriptions.user_id = users.id WHERE follower_id IS NOT NULL`,
     {
-      replacements: [req.cookies.CurrentUserId],
+      replacements: [userId],
       type: sequelize.QueryTypes.SELECT,
     }
   );
 
   if (posts) {
-    res.send(posts[0]);
+    res.send(posts);
   }
 });
 
 router.get("/currentUser", async function (req, res) {
+  const userId = token.getUserId(req.cookies.token);
+
   const userPosts = await sequelize.query(
     "SELECT posts.title, posts.post_text, users.name, posts.date FROM posts INNER JOIN users ON posts.fk_user_id=users.id WHERE fk_user_id=? ",
     {
-      replacements: [+req.cookies.CurrentUserId],
-      type: sequelize.QueryTypes.INSERT,
+      replacements: [userId],
+      type: sequelize.QueryTypes.SELECT,
     }
   );
+
   if (userPosts) {
-    console.log("=====userPosts======", userPosts);
-    let UserObject = userPosts[0];
-    res.send(UserObject);
+    res.send(userPosts);
   }
 });
 
 router.get("/amount", async function (req, res) {
+  const userId = token.getUserId(req.cookies.token);
+
   const amount = await sequelize.query(
     "SELECT COUNT(title) FROM posts WHERE fk_user_id = ?",
     {
-      replacements: [req.query.currentUserId],
-      type: sequelize.QueryTypes.INSERT,
+      replacements: [userId],
+      type: sequelize.QueryTypes.SELECT,
     }
   );
   const amount1 = amount[0];
 
   if (amount1) {
-    res.send(amount1[0]);
+    res.send(amount1);
   }
 });
 
